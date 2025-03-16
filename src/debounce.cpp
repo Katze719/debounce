@@ -7,25 +7,24 @@ Debounce::Debounce(
 ) :
   digitalReadFunction(digitalReadFunction),
   debounceDelayMs(debounceDelayMs),
-  lastDebounceTime(0)
+  lastDebounceTime(millis()),
+  lastStableState(LOW),
+  lastReading(LOW)
 {};
 
 bool Debounce::read() {
-  static bool lastStableState = LOW;
-  static bool lastReading = LOW;
+  bool currentReading = this->digitalReadFunction();
 
-  bool currentReading = digitalReadFunction();
-
-  if (currentReading != lastReading) {
-    lastDebounceTime = millis();
+  if (currentReading != this->lastReading) {
+    this->lastDebounceTime = millis();
   }
 
-  if ((millis() - lastDebounceTime) >= debounceDelayMs) {
-    if (currentReading != lastStableState) {
-      lastStableState = currentReading;
+  if ((millis() - this->lastDebounceTime) >= this->debounceDelayMs) {
+    if (currentReading != this->lastStableState) {
+      this->lastStableState = currentReading;
     }
   }
 
   lastReading = currentReading;
-  return lastStableState;
+  return this->lastStableState;
 }

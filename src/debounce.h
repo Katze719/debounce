@@ -1,17 +1,19 @@
 /**
- * This class is used to debounces a button.
+ * This class is used to debounce a button.
  */
 class Debounce {
   private:
     bool (*digitalReadFunction)();
     uint16_t debounceDelayMs;
     unsigned long lastDebounceTime;
+    bool lastStableState;
+    bool lastReading;
 
   public:
     /**
      * Construct a new instance to debounce a button.
      * 
-     * @param digitalReadFunction The function to read the button
+     * @param digitalReadFunction The pin of the button
      * @param debounceDelayMs The debounce delay in milliseconds
      */
     Debounce(
