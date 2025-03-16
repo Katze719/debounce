@@ -1,25 +1,38 @@
-#include <Arduino.h>
 #include "./debounce.h"
 
+/**
+ * Construct a new instance to debounce a button.
+ * 
+ * @param digitalReadFunction 
+ * @param debounceDelayMs The debounce delay in milliseconds
+ * @param millisFunction The millis function
+ */
 Debounce::Debounce(
   bool (*digitalReadFunction)(),
-  uint16_t debounceDelayMs
+  uint16_t debounceDelayMs,
+  unsigned long (*millisFunction)()
 ) :
   digitalReadFunction(digitalReadFunction),
   debounceDelayMs(debounceDelayMs),
+  millisFunction(millisFunction),
   lastDebounceTime(millis()),
   lastStableState(LOW),
   lastReading(LOW)
 {};
 
+/**
+ * This function returns the current state of the button.
+ * 
+ * @return The current state of the button
+ */
 bool Debounce::read() {
   bool currentReading = this->digitalReadFunction();
 
   if (currentReading != this->lastReading) {
-    this->lastDebounceTime = millis();
+    this->lastDebounceTime = millisFunction();
   }
 
-  if ((millis() - this->lastDebounceTime) >= this->debounceDelayMs) {
+  if ((millisFunction() - this->lastDebounceTime) >= this->debounceDelayMs) {
     if (currentReading != this->lastStableState) {
       this->lastStableState = currentReading;
     }
