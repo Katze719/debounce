@@ -3,7 +3,7 @@
 /**
  * Construct a new instance to debounce a button.
  * 
- * @param digitalReadFunction 
+ * @param digitalReadFunction The function for reading the button
  * @param debounceDelayMs The debounce delay in milliseconds
  * @param millisFunction The millis function
  */
