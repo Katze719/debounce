@@ -16,8 +16,8 @@ Debounce::Debounce(
   debounceDelayMs(debounceDelayMs),
   millisFunction(millisFunction),
   lastDebounceTime(millis()),
-  lastStableState(LOW),
-  lastReading(LOW)
+  lastStableState(false),
+  lastReading(false)
 {};
 
 /**
@@ -40,4 +40,4 @@ bool Debounce::read() {
 
   lastReading = currentReading;
   return this->lastStableState;
-}
+};
