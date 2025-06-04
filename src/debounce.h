@@ -4,9 +4,9 @@
 class Debounce {
   private:
     bool (*digitalReadFunction)();
+    uint32_t (*millisFunction)();
+    uint32_t lastDebounceTime;
     uint16_t debounceDelayMs;
-    unsigned long (*millisFunction)();
-    unsigned long lastDebounceTime;
     bool lastStableState;
     bool lastReading;
 
